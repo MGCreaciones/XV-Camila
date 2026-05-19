@@ -97,7 +97,7 @@ function startOpeningMagic() {
 
 function revealOnScroll() {
   const elements = document.querySelectorAll(
-    ".countdown, .message__photo, .message__text, .church-banner__content, .event-item, .family__grid article, .info-block, .gallery-carousel"
+    ".section-heading, .countdown, .message__photo, .message__text, .church-banner__content, .event-item, .family__grid article, .info-block, .gallery-carousel, .farewell__content"
   );
 
   elements.forEach((element, index) => {
@@ -124,11 +124,26 @@ window.addEventListener("pointerdown", (event) => {
   createSparkBurst(event.clientX, event.clientY, 7);
 });
 
+function setupWishCard() {
+  const wishCard = document.querySelector("[data-wish-card]");
+  if (!wishCard) return;
+
+  wishCard.addEventListener("pointerdown", (event) => {
+    wishCard.parentElement.classList.add("is-wishing");
+    createSparkBurst(event.clientX, event.clientY, 16);
+
+    window.setTimeout(() => {
+      wishCard.parentElement.classList.remove("is-wishing");
+    }, 720);
+  });
+}
+
 window.addEventListener("load", () => {
   startOpeningMagic();
   startAmbientMagic();
   revealOnScroll();
   setupCarousel();
+  setupWishCard();
 });
 
 function setupCarousel() {
