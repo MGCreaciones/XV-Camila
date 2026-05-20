@@ -1393,6 +1393,31 @@ section:not(.hero)::after {
   gap: 12px;
 }
 
+.farewell__actions .primary-button {
+  min-height: 52px;
+  padding: 14px 24px;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  color: #ffffff;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.28), rgba(79, 168, 200, 0.42)),
+    linear-gradient(135deg, rgba(31, 67, 83, 0.72), rgba(79, 168, 200, 0.58));
+  box-shadow:
+    0 18px 42px rgba(0, 0, 0, 0.24),
+    0 0 0 7px rgba(223, 246, 252, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.36);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.34);
+}
+
+.farewell__actions .primary-button:hover {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.34), rgba(158, 217, 236, 0.52)),
+    linear-gradient(135deg, rgba(31, 67, 83, 0.76), rgba(79, 168, 200, 0.68));
+  box-shadow:
+    0 22px 54px rgba(0, 0, 0, 0.3),
+    0 0 0 9px rgba(223, 246, 252, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.42);
+}
+
 .farewell.is-wishing .farewell__crown {
   animation: wishCrown 700ms ease;
 }
@@ -1881,6 +1906,13 @@ footer p {
     object-position: 38% center;
   }
 
+  .hero__overlay {
+    background:
+      radial-gradient(circle at 50% 42%, rgba(31, 67, 83, 0.16), transparent 28%),
+      linear-gradient(180deg, rgba(31, 67, 83, 0.18) 0%, rgba(31, 67, 83, 0.46) 38%, rgba(18, 55, 69, 0.82) 100%),
+      linear-gradient(90deg, rgba(31, 67, 83, 0.66), rgba(79, 168, 200, 0.2));
+  }
+
   .hero__content {
     transform: translateY(6svh);
   }
@@ -1899,7 +1931,13 @@ footer p {
 
   .intro {
     margin-bottom: 0;
+    color: rgba(255, 255, 255, 0.98);
+    font-size: clamp(1.18rem, 6vw, 1.48rem);
+    font-weight: 600;
     line-height: 1.68;
+    text-shadow:
+      0 2px 6px rgba(0, 0, 0, 0.54),
+      0 10px 24px rgba(0, 0, 0, 0.34);
   }
 
   .asset--sparkle {
@@ -2051,12 +2089,36 @@ footer p {
 
   .farewell {
     min-height: 600px;
+    background-image:
+      linear-gradient(rgba(18, 55, 69, 0.54), rgba(18, 55, 69, 0.68)),
+      url("Fotografias.webp/DSC03986.webp"),
+      radial-gradient(circle at 50% 50%, rgba(158, 217, 236, 0.34), rgba(31, 67, 83, 0.92));
     background-position: center, center bottom, center;
     background-size: cover, contain, cover;
   }
 
   .farewell__content {
     padding-inline: 8px;
+  }
+
+  .farewell h2 {
+    text-shadow:
+      0 3px 8px rgba(0, 0, 0, 0.58),
+      0 14px 30px rgba(0, 0, 0, 0.36);
+  }
+
+  .farewell p:not(.section-kicker) {
+    color: rgba(255, 255, 255, 0.98);
+    font-weight: 600;
+    text-shadow:
+      0 2px 6px rgba(0, 0, 0, 0.52),
+      0 10px 24px rgba(0, 0, 0, 0.28);
+  }
+
+  .farewell .primary-button--ghost {
+    background: rgba(31, 67, 83, 0.46);
+    border-color: rgba(255, 255, 255, 0.68);
+    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.22);
   }
 
   .farewell__content::before,
