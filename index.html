@@ -6,6 +6,12 @@
     <meta name="theme-color" content="#9ed9ec">
     <title>XV Camila | Invitaci&oacute;n</title>
     <link rel="icon" type="image/png" href="Recursos/corona2.png">
+    <link
+      rel="preload"
+      href="Musica/Stephen%20Sanchez%20-%20Until%20I%20Found%20You%20(Official%20Video).mp3"
+      as="audio"
+      type="audio/mpeg"
+    >
     <meta
       name="description"
       content="Invitaci&oacute;n a los XV a&ntilde;os de Camila, 18 de julio de 2026."
@@ -112,13 +118,9 @@
               <h3>Misa</h3>
               <p>Parroquia de San Juan Bautista</p>
               <div class="map-preview" aria-label="Mapa de la misa">
-                <div class="map-preview__label">
-                  <strong>Parroquia de San Juan Bautista</strong>
-                  <span>3:00 pm</span>
-                </div>
                 <iframe
                   title="Mapa Parroquia de San Juan Bautista"
-                  src="https://maps.google.com/maps?q=20.27558514421893,-97.95835600482215&z=17&t=k&output=embed"
+                  src="https://maps.google.com/maps?q=Parroquia%20de%20San%20Juan%20Bautista%2C%20Xicotepec%2C%20Puebla&ll=20.27558514421893,-97.95835600482215&z=16&t=m&output=embed"
                   loading="lazy"
                   referrerpolicy="no-referrer-when-downgrade"
                 ></iframe>
@@ -138,13 +140,9 @@
               <h3>Recepci&oacute;n</h3>
               <p>Sal&oacute;n Real del Caf&eacute; en Lagunillas</p>
               <div class="map-preview" aria-label="Mapa de la recepci&oacute;n">
-                <div class="map-preview__label">
-                  <strong>Sal&oacute;n Real del Caf&eacute;</strong>
-                  <span>5:00 pm</span>
-                </div>
                 <iframe
                   title="Mapa Sal&oacute;n Real del Caf&eacute;"
-                  src="https://maps.google.com/maps?q=20.226500429626785,-97.95045095602026&z=17&t=k&output=embed"
+                  src="https://maps.google.com/maps?q=Sal%C3%B3n%20Real%20del%20Caf%C3%A9%2C%20Lagunillas%2C%20Puebla&ll=20.226500429626785,-97.95045095602026&z=15&t=m&output=embed"
                   loading="lazy"
                   referrerpolicy="no-referrer-when-downgrade"
                 ></iframe>
@@ -275,14 +273,6 @@
 
     <div class="music-player" aria-label="M&uacute;sica de fondo">
       <audio id="invitation-music" src="Musica/Stephen%20Sanchez%20-%20Until%20I%20Found%20You%20(Official%20Video).mp3" preload="auto" autoplay loop></audio>
-      <div class="music-hint" data-music-hint>
-        <span>Toca para escuchar</span>
-        <span class="music-hint__arrow" aria-hidden="true">&rarr;</span>
-      </div>
-      <button class="music-button" type="button" data-music-toggle aria-label="Reproducir m&uacute;sica">
-        <span class="music-button__icon" aria-hidden="true">♪</span>
-        <span data-music-label>M&uacute;sica</span>
-      </button>
     </div>
 
     <script src="script.js"></script>

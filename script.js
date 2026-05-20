@@ -159,22 +159,34 @@ function setupWishCard() {
 
 function setupMusicPlayer() {
   const music = document.querySelector("#invitation-music");
-  const toggle = document.querySelector("[data-music-toggle]");
-  const label = document.querySelector("[data-music-label]");
   const player = document.querySelector(".music-player");
-  const hint = document.querySelector("[data-music-hint]");
-  if (!music || !toggle || !label || !player) return;
+  if (!music || !player) return;
+  if (player.dataset.musicReady === "true") return;
+  player.dataset.musicReady = "true";
+
+  let isPrepared = false;
+  const startupEvents = ["pointerdown", "touchstart", "click", "keydown", "scroll"];
+
+  function prepareMusic() {
+    if (isPrepared) return;
+    isPrepared = true;
+    music.preload = "auto";
+    music.load();
+  }
+
+  function removeStartupListeners() {
+    startupEvents.forEach((eventName) => {
+      window.removeEventListener(eventName, startFromInteraction);
+    });
+  }
 
   function setPlayingState(isPlaying) {
     player.classList.toggle("is-playing", isPlaying);
-    label.textContent = isPlaying ? "Pausar" : "M\u00fasica";
-    toggle.setAttribute("aria-label", isPlaying ? "Pausar m\u00fasica" : "Reproducir m\u00fasica");
-    if (isPlaying && hint) {
-      player.classList.add("is-dismissed");
-    }
+    player.classList.toggle("is-dismissed", isPlaying);
   }
 
   async function playMusic() {
+    prepareMusic();
     try {
       await music.play();
       setPlayingState(true);
@@ -185,43 +197,43 @@ function setupMusicPlayer() {
     }
   }
 
-  playMusic().then((started) => {
-    if (started) return;
-
-    const startOnFirstTouch = (event) => {
-      if (event.target.closest(".music-player")) return;
-
-      playMusic();
-      window.removeEventListener("pointerdown", startOnFirstTouch);
-      window.removeEventListener("touchstart", startOnFirstTouch);
-    };
-
-    window.addEventListener("pointerdown", startOnFirstTouch, { once: true });
-    window.addEventListener("touchstart", startOnFirstTouch, { once: true });
-  });
-
-  toggle.addEventListener("click", async () => {
-    if (music.paused) {
-      const started = await playMusic();
-      if (!started) {
-        label.textContent = "Toca otra vez";
-      }
+  async function startFromInteraction(event) {
+    if (!music.paused) {
+      removeStartupListeners();
       return;
     }
 
-    music.pause();
-    setPlayingState(false);
+    if (event.target instanceof Element && event.target.closest(".music-player")) return;
+
+    const started = await playMusic();
+    if (started) {
+      removeStartupListeners();
+    }
+  }
+
+  startupEvents.forEach((eventName) => {
+    window.addEventListener(eventName, startFromInteraction, { passive: true });
+  });
+  window.addEventListener("pointerdown", prepareMusic, { once: true, passive: true });
+  window.addEventListener("touchstart", prepareMusic, { once: true, passive: true });
+
+  prepareMusic();
+  playMusic().then((started) => {
+    if (started) removeStartupListeners();
   });
 }
 
-window.addEventListener("load", () => {
-  startOpeningMagic();
-  startAmbientMagic();
+window.addEventListener("DOMContentLoaded", () => {
+  setupMusicPlayer();
   setupInteractiveBackground();
   revealOnScroll();
   setupCarousel();
   setupWishCard();
-  setupMusicPlayer();
+});
+
+window.addEventListener("load", () => {
+  startOpeningMagic();
+  startAmbientMagic();
 });
 
 function setupCarousel() {
