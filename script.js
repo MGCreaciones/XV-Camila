@@ -166,13 +166,38 @@ function setupMusicPlayer() {
   player.dataset.musicReady = "true";
 
   let isPrepared = false;
+  let playPromise = null;
+  let preloadPromise = null;
+  const originalAudioSrc = music.dataset.audioSrc || music.getAttribute("src");
   const startupEvents = ["pointerdown", "pointerup", "touchstart", "touchend", "click", "keydown", "wheel", "scroll"];
+
+  function preloadAudioFile() {
+    if (preloadPromise || !originalAudioSrc || window.location.protocol === "file:") {
+      return preloadPromise;
+    }
+
+    preloadPromise = fetch(originalAudioSrc, { cache: "force-cache" })
+      .then((response) => {
+        if (!response.ok) throw new Error("Audio preload failed");
+        return response.blob();
+      })
+      .then((blob) => {
+        if (!music.paused) return true;
+        music.src = URL.createObjectURL(blob);
+        music.load();
+        return true;
+      })
+      .catch(() => false);
+
+    return preloadPromise;
+  }
 
   function prepareMusic() {
     if (isPrepared) return;
     isPrepared = true;
     music.preload = "auto";
     music.load();
+    preloadAudioFile();
   }
 
   function removeStartupListeners() {
@@ -188,12 +213,42 @@ function setupMusicPlayer() {
 
   async function playMusic() {
     prepareMusic();
-    try {
-      await music.play();
+    if (!music.paused) {
       setPlayingState(true);
       return true;
+    }
+
+    if (playPromise) return playPromise;
+
+    playPromise = music.play()
+      .then(() => {
+        setPlayingState(true);
+        return true;
+      })
+      .catch(() => {
+        setPlayingState(false);
+        return false;
+      })
+      .finally(() => {
+        playPromise = null;
+      });
+
+    return playPromise;
+  }
+
+  async function warmAndPlayMusic() {
+    prepareMusic();
+    try {
+      music.currentTime = Math.max(music.currentTime, 0.01);
     } catch {
-      setPlayingState(false);
+      // Some mobile browsers do not allow seeking before metadata is ready.
+    }
+
+    try {
+      const started = await playMusic();
+      if (started) removeStartupListeners();
+      return started;
+    } catch {
       return false;
     }
   }
@@ -206,10 +261,7 @@ function setupMusicPlayer() {
 
     if (event.target instanceof Element && event.target.closest(".music-player")) return;
 
-    const started = await playMusic();
-    if (started) {
-      removeStartupListeners();
-    }
+    await warmAndPlayMusic();
   }
 
   startupEvents.forEach((eventName) => {
@@ -220,14 +272,13 @@ function setupMusicPlayer() {
   if (startButton) {
     ["pointerdown", "pointerup", "touchstart", "touchend", "click"].forEach((eventName) => {
       startButton.addEventListener(eventName, () => {
-        playMusic().then((started) => {
-          if (started) removeStartupListeners();
-        });
+        warmAndPlayMusic();
       }, { passive: true });
     });
   }
 
   prepareMusic();
+  preloadAudioFile();
   playMusic().then((started) => {
     if (started) removeStartupListeners();
   });
