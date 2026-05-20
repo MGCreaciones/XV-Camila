@@ -160,12 +160,13 @@ function setupWishCard() {
 function setupMusicPlayer() {
   const music = document.querySelector("#invitation-music");
   const player = document.querySelector(".music-player");
+  const startButton = document.querySelector("[data-start-invitation]");
   if (!music || !player) return;
   if (player.dataset.musicReady === "true") return;
   player.dataset.musicReady = "true";
 
   let isPrepared = false;
-  const startupEvents = ["pointerdown", "touchstart", "click", "keydown", "scroll"];
+  const startupEvents = ["pointerdown", "pointerup", "touchstart", "touchend", "click", "keydown", "wheel", "scroll"];
 
   function prepareMusic() {
     if (isPrepared) return;
@@ -176,7 +177,7 @@ function setupMusicPlayer() {
 
   function removeStartupListeners() {
     startupEvents.forEach((eventName) => {
-      window.removeEventListener(eventName, startFromInteraction);
+      window.removeEventListener(eventName, startFromInteraction, { capture: true });
     });
   }
 
@@ -212,10 +213,19 @@ function setupMusicPlayer() {
   }
 
   startupEvents.forEach((eventName) => {
-    window.addEventListener(eventName, startFromInteraction, { passive: true });
+    window.addEventListener(eventName, startFromInteraction, { capture: true, passive: true });
   });
   window.addEventListener("pointerdown", prepareMusic, { once: true, passive: true });
   window.addEventListener("touchstart", prepareMusic, { once: true, passive: true });
+  if (startButton) {
+    ["pointerdown", "pointerup", "touchstart", "touchend", "click"].forEach((eventName) => {
+      startButton.addEventListener(eventName, () => {
+        playMusic().then((started) => {
+          if (started) removeStartupListeners();
+        });
+      }, { passive: true });
+    });
+  }
 
   prepareMusic();
   playMusic().then((started) => {
