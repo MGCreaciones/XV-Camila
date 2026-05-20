@@ -162,12 +162,16 @@ function setupMusicPlayer() {
   const toggle = document.querySelector("[data-music-toggle]");
   const label = document.querySelector("[data-music-label]");
   const player = document.querySelector(".music-player");
+  const hint = document.querySelector("[data-music-hint]");
   if (!music || !toggle || !label || !player) return;
 
   function setPlayingState(isPlaying) {
     player.classList.toggle("is-playing", isPlaying);
     label.textContent = isPlaying ? "Pausar" : "M\u00fasica";
     toggle.setAttribute("aria-label", isPlaying ? "Pausar m\u00fasica" : "Reproducir m\u00fasica");
+    if (isPlaying && hint) {
+      player.classList.add("is-dismissed");
+    }
   }
 
   async function playMusic() {
@@ -184,7 +188,9 @@ function setupMusicPlayer() {
   playMusic().then((started) => {
     if (started) return;
 
-    const startOnFirstTouch = () => {
+    const startOnFirstTouch = (event) => {
+      if (event.target.closest(".music-player")) return;
+
       playMusic();
       window.removeEventListener("pointerdown", startOnFirstTouch);
       window.removeEventListener("touchstart", startOnFirstTouch);
