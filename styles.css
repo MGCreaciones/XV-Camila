@@ -698,8 +698,9 @@ section:not(.hero)::after {
 .church-banner::before {
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(31, 67, 83, 0.02) 0%, rgba(31, 67, 83, 0.16) 42%, rgba(31, 67, 83, 0.58) 100%),
-    linear-gradient(90deg, rgba(31, 67, 83, 0.44), rgba(109, 186, 212, 0.08) 48%, rgba(255, 255, 255, 0));
+    radial-gradient(circle at 18% 48%, rgba(158, 217, 236, 0.42), transparent 30%),
+    linear-gradient(180deg, rgba(31, 67, 83, 0.02) 0%, rgba(31, 67, 83, 0.12) 42%, rgba(31, 67, 83, 0.58) 100%),
+    linear-gradient(90deg, rgba(31, 67, 83, 0.66), rgba(79, 168, 200, 0.2) 48%, rgba(255, 255, 255, 0));
 }
 
 .church-banner::after {
@@ -728,9 +729,30 @@ section:not(.hero)::after {
   text-align: center;
 }
 
+.church-banner__content::before {
+  content: "";
+  position: absolute;
+  inset: -22px -24px -20px;
+  z-index: -1;
+  border-left: 4px solid rgba(158, 217, 236, 0.82);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(90deg, rgba(31, 67, 83, 0.34), rgba(31, 67, 83, 0.08), transparent),
+    radial-gradient(circle at 18% 50%, rgba(158, 217, 236, 0.28), transparent 44%);
+  box-shadow: 0 22px 70px rgba(31, 67, 83, 0.18);
+  pointer-events: none;
+}
+
 .church-banner .section-kicker {
   color: #effbff;
-  text-shadow: 0 3px 14px rgba(31, 67, 83, 0.42);
+  text-shadow: 0 3px 14px rgba(31, 67, 83, 0.58);
+}
+
+.church-banner h2 {
+  color: #ffffff;
+  text-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.36),
+    0 0 26px rgba(158, 217, 236, 0.34);
 }
 
 .church-banner p:not(.section-kicker) {
@@ -1800,8 +1822,9 @@ footer p {
 
   .church-banner::before {
     background:
-      linear-gradient(90deg, rgba(31, 67, 83, 0.62) 0%, rgba(31, 67, 83, 0.22) 48%, rgba(31, 67, 83, 0.02) 100%),
-      linear-gradient(180deg, rgba(158, 217, 236, 0.04), rgba(31, 67, 83, 0.18));
+      radial-gradient(circle at 17% 48%, rgba(158, 217, 236, 0.42), transparent 30%),
+      linear-gradient(90deg, rgba(31, 67, 83, 0.72) 0%, rgba(79, 168, 200, 0.2) 50%, rgba(31, 67, 83, 0.02) 100%),
+      linear-gradient(180deg, rgba(158, 217, 236, 0.04), rgba(31, 67, 83, 0.2));
   }
 
   .church-banner__content {
