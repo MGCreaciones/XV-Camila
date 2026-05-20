@@ -157,6 +157,57 @@ function setupWishCard() {
   });
 }
 
+function setupMusicPlayer() {
+  const music = document.querySelector("#invitation-music");
+  const toggle = document.querySelector("[data-music-toggle]");
+  const label = document.querySelector("[data-music-label]");
+  const player = document.querySelector(".music-player");
+  if (!music || !toggle || !label || !player) return;
+
+  function setPlayingState(isPlaying) {
+    player.classList.toggle("is-playing", isPlaying);
+    label.textContent = isPlaying ? "Pausar" : "M\u00fasica";
+    toggle.setAttribute("aria-label", isPlaying ? "Pausar m\u00fasica" : "Reproducir m\u00fasica");
+  }
+
+  async function playMusic() {
+    try {
+      await music.play();
+      setPlayingState(true);
+      return true;
+    } catch {
+      setPlayingState(false);
+      return false;
+    }
+  }
+
+  playMusic().then((started) => {
+    if (started) return;
+
+    const startOnFirstTouch = () => {
+      playMusic();
+      window.removeEventListener("pointerdown", startOnFirstTouch);
+      window.removeEventListener("touchstart", startOnFirstTouch);
+    };
+
+    window.addEventListener("pointerdown", startOnFirstTouch, { once: true });
+    window.addEventListener("touchstart", startOnFirstTouch, { once: true });
+  });
+
+  toggle.addEventListener("click", async () => {
+    if (music.paused) {
+      const started = await playMusic();
+      if (!started) {
+        label.textContent = "Toca otra vez";
+      }
+      return;
+    }
+
+    music.pause();
+    setPlayingState(false);
+  });
+}
+
 window.addEventListener("load", () => {
   startOpeningMagic();
   startAmbientMagic();
@@ -164,6 +215,7 @@ window.addEventListener("load", () => {
   revealOnScroll();
   setupCarousel();
   setupWishCard();
+  setupMusicPlayer();
 });
 
 function setupCarousel() {
