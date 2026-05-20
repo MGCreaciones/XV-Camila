@@ -81,6 +81,25 @@ function startAmbientMagic() {
   }, 7600);
 }
 
+function setupInteractiveBackground() {
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduceMotion) return;
+
+  function updatePointerGlow(event) {
+    const point = event.touches ? event.touches[0] : event;
+    if (!point) return;
+
+    const x = Math.round((point.clientX / window.innerWidth) * 100);
+    const y = Math.round((point.clientY / window.innerHeight) * 100);
+
+    document.documentElement.style.setProperty("--pointer-x", `${x}%`);
+    document.documentElement.style.setProperty("--pointer-y", `${y}%`);
+  }
+
+  window.addEventListener("pointermove", updatePointerGlow, { passive: true });
+  window.addEventListener("touchmove", updatePointerGlow, { passive: true });
+}
+
 function startOpeningMagic() {
   document.body.classList.add("magic-opening");
 
@@ -141,6 +160,7 @@ function setupWishCard() {
 window.addEventListener("load", () => {
   startOpeningMagic();
   startAmbientMagic();
+  setupInteractiveBackground();
   revealOnScroll();
   setupCarousel();
   setupWishCard();
