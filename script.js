@@ -97,7 +97,7 @@ function startOpeningMagic() {
 
 function revealOnScroll() {
   const elements = document.querySelectorAll(
-    ".section-heading, .countdown, .message__photo, .message__text, .church-banner__content, .event-item, .family__grid article, .info-block, .gallery-carousel, .farewell__content"
+    ".section-heading, .countdown, .message__photo, .message__text, .church-banner__content, .event-item, .family__grid article, .info-block, .rsvp__content, .gallery-carousel, .farewell__content"
   );
 
   elements.forEach((element, index) => {

@@ -372,6 +372,13 @@ h3 {
   box-shadow: 0 18px 48px rgba(31, 67, 83, 0.28);
 }
 
+.primary-button--ghost {
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(8px);
+}
+
 section:not(.hero) {
   padding: 68px 18px;
 }
@@ -840,6 +847,68 @@ section:not(.hero) {
   box-shadow: 0 0 0 1px var(--line);
 }
 
+.rsvp {
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(158, 217, 236, 0.28), transparent 26%),
+    radial-gradient(circle at 82% 74%, rgba(255, 255, 255, 0.86), transparent 28%),
+    linear-gradient(180deg, var(--white), var(--baby-blue-soft));
+}
+
+.rsvp::before,
+.rsvp::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  background: url("Recursos/brillo.png") center / contain no-repeat;
+  opacity: 0.22;
+  filter: drop-shadow(0 10px 18px rgba(31, 67, 83, 0.12));
+}
+
+.rsvp::before {
+  left: -70px;
+  top: 18px;
+  width: 190px;
+  height: 190px;
+  transform: rotate(-12deg);
+}
+
+.rsvp::after {
+  right: -86px;
+  bottom: -38px;
+  width: 240px;
+  height: 240px;
+  transform: rotate(14deg);
+}
+
+.rsvp__content {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 700px);
+  margin: 0 auto;
+  padding: 34px 18px;
+  border: 1px solid rgba(109, 186, 212, 0.3);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 24px 70px rgba(31, 67, 83, 0.12);
+}
+
+.rsvp__icon {
+  width: 78px;
+  margin: 0 auto 12px;
+  filter: drop-shadow(0 12px 20px rgba(31, 67, 83, 0.14));
+}
+
+.rsvp p:not(.section-kicker) {
+  max-width: 520px;
+  margin: 0 auto 24px;
+  color: var(--muted);
+  font-size: clamp(0.98rem, 2vw, 1.06rem);
+  line-height: 1.78;
+}
+
 .gallery {
   background:
     radial-gradient(circle at 20% 20%, rgba(158, 217, 236, 0.18), transparent 26%),
@@ -1097,6 +1166,13 @@ section:not(.hero) {
   color: rgba(255, 255, 255, 0.92);
   font-size: clamp(0.98rem, 2vw, 1.08rem);
   line-height: 1.82;
+}
+
+.farewell__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
 }
 
 .farewell.is-wishing .farewell__crown {
