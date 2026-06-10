@@ -160,6 +160,7 @@ function setupWishCard() {
 function setupMusicPlayer() {
   const music = document.querySelector("#invitation-music");
   const player = document.querySelector(".music-player");
+  const control = document.querySelector("[data-music-control]");
   const startButton = document.querySelector("[data-start-invitation]");
   if (!music || !player) return;
   if (player.dataset.musicReady === "true") return;
@@ -209,6 +210,10 @@ function setupMusicPlayer() {
   function setPlayingState(isPlaying) {
     player.classList.toggle("is-playing", isPlaying);
     player.classList.toggle("is-dismissed", isPlaying);
+    if (isPlaying) player.classList.add("has-control");
+    if (control) {
+      control.setAttribute("aria-label", isPlaying ? "Pausar m\u00fasica" : "Reproducir m\u00fasica");
+    }
   }
 
   async function playMusic() {
@@ -277,6 +282,17 @@ function setupMusicPlayer() {
     });
   }
 
+  if (control) {
+    control.addEventListener("click", async () => {
+      if (music.paused) {
+        await warmAndPlayMusic();
+        return;
+      }
+
+      music.pause();
+      setPlayingState(false);
+    });
+  }
   prepareMusic();
   preloadAudioFile();
   playMusic().then((started) => {
